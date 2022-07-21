@@ -32,6 +32,7 @@ export default function App() {
       <StatusBar style="auto" />
       <Text style={styles.textStyle} >{quotes[idx]}</Text>
       <Button title='NEXT QUOTE' onPress={(event) => setIndex(++idx)}></Button>
+      
       <Button title='PREVIOUS QUOTE' onPress={(event) => setIndex(--idx)}></Button>
     </View>
   );
