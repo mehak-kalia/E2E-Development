@@ -1,80 +1,79 @@
 import { StatusBar } from "expo-status-bar";
-import { Component, useState } from "react";
-import { Button, FlatList, StyleSheet, Text, View } from 'react-native';
+import { Component, useEffect, useState } from "react";
+import { Button, FlatList, StyleSheet, Text, View , Image} from 'react-native';
 
 
 
-const LinkedInJobs = [
-  {
-    name: "Training Program",
-    company: "Coincent.ai",
-    location: "Mumbai",
-    type: "Remote",
-    logo: "https://coincent.ai/images/Coincent_PNG.png"
-  },
-
-  {
-    name: "Web Development Intern",
-    company: "Corizo",
-    location: "Delhi",
-    type: "On Site",
-    logo: "https://corizo.in/wp-content/uploads/2021/12/cropped-Corizo-2-1-316x190.png"
-  },
-
-  {
-    name: "Data Science Intern",
-    company: "Sabudh Foundation",
-    location: "Ludhiana",
-    type: "On Site",
-    logo: "https://sabudh.org/wp-content/themes/hello-theme-child-master/images/logo.png"
-  },
-  {
-    name: "Graphic Design Intern",
-    company: "Alchemial",
-    location: "Bangalore",
-    type: "Remote",
-    logo: "https://alchemial.com/images-duplicate/logo-white.png"
-  },
-  {
-    name: "Flutter Developer",
-    company: "Accenture",
-    location: "Chandigarh",
-    type: "On Site",
-    logo: "https://www.accenture.com/t20180820T081710Z__w__/in-en/_acnmedia/Accenture/Dev/Redesign/Acc_Logo_Black_Purple_RGB.PNG"
-  },
-
-]
 
 
-// List Item Layout
+
+
+
+
+// Functional Component
+export default function App() {
+
+  const url = 'https://newsapi.org/v2/top-headlines?country=in&apiKey=e3b47176c4de496985d4f116bf34a16c'
+  const [news, setNews] = useState([]);
+
+  const getNewFromNewsAPI = async () =>{
+
+    try {
+      const responseFromAPI = await fetch(url);
+      console.log("responseFromAPI:");
+      console.log(responseFromAPI);
+
+      // Convert the Raw Response into JSON
+      const jsonData = await responseFromAPI.json();
+      console.log("jsonData");
+      console.log(jsonData);
+
+
+      const articles = jsonData['articles'];
+      console.log("articles");
+      console.log(articles);
+
+
+      setNews(articles);
+      
+      
+      
+      
+      
+      
+    } catch (error) {
+      console.error("Something Went Wrong: "+error);
+      
+      
+    }
+  }
+
+  useEffect(() => {
+    getNewFromNewsAPI(), []
+  })
+
+  // List Item Layout
 const Item = (itemData:any) => (
   <View style={styles.item}>
     
     
-         <img   style={{
-            height: 50,
-            width: 120,
-            
-          }}
-          src= {itemData.logo}></img>
-     <Text style={styles.title} >{itemData.name}</Text>
-     <Text style={styles.subTitle} >{itemData.company}</Text>
-     <Text style={styles.small} >{itemData.location}</Text>
-     <Text style={styles.small} >{itemData.type}</Text>
+         <Image  
+          source = {{uri: itemData.urlToImage}}></Image>
+     <Text style={styles.title} >{itemData.title}</Text>
+
 
   </View>
 );
 
 // Specified to execute renderItem function and create Item Views
-const renderItem = ({item}:any) => Item(item);
-
-// Functional Component
-export default function App() {
+const renderItem = (item:any) => Item(item);
 
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      <FlatList data={LinkedInJobs} renderItem={renderItem}/>
+      <Text>Welcome To News APP</Text>
+      
+      <FlatList data={news} renderItem={renderItem}/>
     </View>
   );
 
@@ -83,7 +82,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-   
     alignItems: 'center',
     justifyContent: 'center',
   },
