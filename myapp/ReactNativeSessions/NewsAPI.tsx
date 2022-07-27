@@ -5,9 +5,9 @@ import { FlatList, StyleSheet, Text, View, Image, ActivityIndicator } from 'reac
 // List Item Layout
 const Item = (itemData:any) => (
   <View style={styles.item}>
-     
-     <Text style={styles.title} >{itemData.name}</Text>
-     <Text style={styles.subTitle} >{itemData.release_date}</Text>
+     <Image source={{uri: itemData.urlToImage}} style={styles.image}/>
+     <Text style={styles.title} >{itemData.title}</Text>
+     <Text style={styles.subTitle} >{itemData.publishedAt}</Text>
   </View>
 );
 
@@ -17,7 +17,7 @@ const renderItem = ({item}:any) => Item(item);
 // Functional Component
 export default function App() {
 
-  const url = "http://api.weatherapi.com/v1/forecast.json?key=fee761543426465f86e171504222707&q=Ludhiana&days=1&aqi=no&alerts=no";
+  const url = "https://newsapi.org/v2/top-headlines?country=in&apiKey=31c21508fad64116acd229c10ac11e84";
   const [news, setNews] = useState([]);
   const [showIndicator, setIndicator] = useState(true);
 
@@ -33,7 +33,7 @@ export default function App() {
       console.log("jsonData");
       console.log(jsonData);
       
-      const articles = jsonData['forecast']['forecastday'];
+      const articles = jsonData['articles'];
       console.log("articles");
       console.log(articles);
       
@@ -134,3 +134,5 @@ const styles = StyleSheet.create({
 
 
 });
+
+// OCW60RD8DWMG0KVH
