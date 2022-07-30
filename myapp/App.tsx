@@ -8,14 +8,14 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
 export default function App() {
-  // return (
-  //   // <View style={styles.container}>
-  //   //   <Text>This Is My App</Text>
+  return (
+    <View style={styles.container}>
+      <Text>This Is My App</Text>
 
-  //   // </View>
+    </View>
 
     
-  // );
+  );
 }
 
 function HomeScreen() {
