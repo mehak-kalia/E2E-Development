@@ -1,164 +1,83 @@
-import { StatusBar } from "expo-status-bar";
-import { useEffect, useState } from "react";
-import { FlatList, StyleSheet, Text, View, Image, ActivityIndicator } from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, View, Dimensions, Button } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import HomeScreen from './src/functional-comps/home'
+import ProfileScreen from './src/functional-comps/profile'
+import OrdersScreen from './src/functional-comps/orders'
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { color } from 'react-native-reanimated';
+import ClassComponent from './src/tutorials/ClassComponentQuotes';
+import NewsApp from './src/tutorials/NewsAPI';
+import LinkedIn from './src/tutorials/LinkedInJobsUi';
 
 
+// Install: 
+// npm install @react-navigation/native
+// npm install @react-navigation/native-stack
+// npm install react-native-screens react-native-safe-area-context
 
 
+// Create the Object of Stack
+const Stack = createNativeStackNavigator();
 
-// Functional Component
+// const Drawer = createDrawerNavigator();
+
+// export default function App() {
+
+//   return (
+//     <NavigationContainer>
+//       <Drawer.Navigator screenOptions={{
+//         drawerStyle: {
+//           backgroundColor: '#c6cbef',
+//           width: 240,
+
+//     },
+//   }}
+//   initialRouteName = 'Home'
+// >
+
+//         <Drawer.Screen name='Home' component={HomeScreen} />
+//         <Drawer.Screen name='Profile' component={ProfileScreen}/>
+//         <Drawer.Screen name='Orders' component={OrdersScreen}/>
+//       </Drawer.Navigator>
+//     </NavigationContainer>
+//   );
+// }
+
+const Tab = createMaterialTopTabNavigator();
+
 export default function App() {
 
-  const url = "http://api.weatherapi.com/v1/forecast.json?key=fee761543426465f86e171504222707&q=Ludhiana&days=1&aqi=no&alerts=no";
-  //const [news, setNews] = useState(brickInWall(noOfBricks));
-  //const [showIndicator, setIndicator] = useState(true);
-
-var prompt = require('prompt-sync')()
-
-let noOfBricks = Number(prompt("Enter Required No. Of Bricks:"));
-
-function brickInWall(input: any){
-let bricksPlaced = 0
-let johnTurn = 1
-
-while(bricksPlaced<input){
-
-    // // for(let i =0; i<noOfBricks; i++){
-    //     bricksPlaced+= 1
-    //     bricksPlaced += 2
-    //     console.log(bricksPlaced);
-        
-
-    // // }
-    //let noOfTurns = 1
-    
-    //console.log("i is:"+i);
-
-    
-    bricksPlaced += johnTurn
-    let initialbricks = bricksPlaced-johnTurn
-    if(bricksPlaced>=input){
-        console.log("working1");
-        let init = johnTurn + (input - bricksPlaced) 
-        bricksPlaced += (input - bricksPlaced)
-        console.log("Johns turn"+initialbricks +"+"+ init+"="+bricksPlaced);
-        console.log("Last Brick Planted by John");
-        let jackTurn = johnTurn-1
-        console.log("No. Of Turns\nJohn: "+johnTurn+"\nJack: "+jackTurn);
-        break
-    }
-    //let initialbricks = bricksPlaced-johnTurn
-    console.log("Johns turn"+initialbricks +"+"+ johnTurn+"="+bricksPlaced);
-
-    bricksPlaced += johnTurn*2
-    let initialbricks2 = bricksPlaced -(johnTurn*2)
-    if(bricksPlaced>=input){
-        console.log("working3");
-        let init2 = johnTurn*2 + (input - bricksPlaced);
-        bricksPlaced += (input - bricksPlaced)
-        console.log("Jacks turn "+initialbricks2 +"+"+ init2+"="+bricksPlaced);
-        console.log("Last Brick Planted by Jack");
-        console.log("No. Of Turns\nJohn: "+johnTurn+"\nJack: "+johnTurn);
-        break
-    }
-    //let initialbricks2 = bricksPlaced -(johnTurn*2)
-    console.log("Jacks turn "+initialbricks2 +"+"+ johnTurn*2+"="+bricksPlaced);
-    
-
-
-    johnTurn += 1;
-
-}
-
-console.log(bricksPlaced);}
-
-brickInWall(noOfBricks);
-
-const [news, setNews] = useState(brickInWall(noOfBricks));
-
-  
-
-  useEffect(()=> {
-    brickInWall(noOfBricks);
-  }, []);
-
   return (
-    <View style={styles.background}>
-      <StatusBar style="auto" />
+    <NavigationContainer>
+      <Tab.Navigator screenOptions={{
+        tabBarStyle : {
+          
+        }
 
-      
-      
-    </View>
+
+  }}
+  initialRouteName = 'Home'
+>
+
+        <Tab.Screen name='Home' component={HomeScreen} />
+        <Tab.Screen name='Profile' component={ProfileScreen}/>
+        <Tab.Screen name='Orders' component={OrdersScreen}/>
+        <Tab.Screen name='Class Component' component={ClassComponent}/>
+        <Tab.Screen name='LinkedIn' component={LinkedIn}/>
+        {/* <Tab.Screen name='News' component={NewsApp}/> */}
+      </Tab.Navigator>
+    </NavigationContainer>
   );
-
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
-
-  textStyle:{
-    fontSize: 24,
-    color: "#f00",
-    marginBottom: 20,
-    alignContent: "center",
-    justifyContent: 'center'
-  },
-
-  background:{
-    
-    fontSize: 24,
-    marginBottom: 20,
-    margin: 20,
-    alignContent: "center",
-    justifyContent: 'center'
-  
-  },
-
-  item: {
-    borderColor: 'grey',
-    borderWidth: 0.5,
-    backgroundColor: '#fff',
-    padding: 8,
-    margin: 6,
-    alignContent: "center",
-    justifyContent: 'center',
-    borderRadius: 10,
-    shadowColor: '#171717',
-    shadowOffset: {width: -2, height: 4},
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-  },
-
-  title: {
-    fontSize: 16,
-    color: '#000000',
-    flexDirection: "row",
-    alignContent: "center",
-    justifyContent: 'center'
-  },
-
-  subTitle: {
-    fontSize: 12,
-    color: 'grey',
-    alignContent: "center",
-    justifyContent: 'center'
-  },
-
-  small : {
-    fontSize: 10,
-    color: 'grey',
-    alignContent: "center",
-    justifyContent: 'center'
-  },
-
-  image: {
-    width: 300,
-    height: 200,
-    margin: 8
-  }
-
-
 });

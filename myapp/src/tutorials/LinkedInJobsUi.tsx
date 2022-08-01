@@ -102,7 +102,7 @@ const Item = (itemData:any) => (
 const renderItem = ({item}:any) => Item(item);
 
 // Functional Component
-export default function App() {
+export default function LinkedIn() {
 
   return (
     <View style={styles.container}>

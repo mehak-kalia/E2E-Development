@@ -4,7 +4,7 @@ import { Button, StyleSheet, Text, View } from 'react-native';
 
 // App is Child Class
 // Component is Parent Class
-export default class App extends Component{
+export default class ClassComponent extends Component{
  
   // Attrbutes: Property of Object
   idx = 0;
@@ -46,6 +46,7 @@ export default class App extends Component{
         <StatusBar style="auto" />
         <Text style={styles.textStyle} >Welcome to Class Component</Text>
         <Text>{this.state.quote}</Text>
+        <Text></Text>
         <Button title='NEXT' onPress={this.onButtonPressed}></Button>
       </View>
     );
