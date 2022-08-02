@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { Component, useState } from "react";
-import { Button, FlatList, StyleSheet, Text, View } from 'react-native';
+import { Button, FlatList, StyleSheet, Text, View, Image } from 'react-native';
 
 
 
@@ -84,12 +84,13 @@ const Item = (itemData:any) => (
   <View style={styles.item}>
     
     
-         <img   style={{
+         {/* <img   style={{
             height: 50,
             width: 120,
             
           }}
-          src= {itemData.logo}></img>
+          src= {itemData.logo}></img> */}
+     <Image source={ itemData.logo} height={50} width = {120}></Image>
      <Text style={styles.title} >{itemData.name}</Text>
      <Text style={styles.subTitle} >{itemData.company}</Text>
      <Text style={styles.small} >{itemData.location}</Text>
