@@ -2,51 +2,65 @@ import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
 
-export default function LinkedIn() {
+//export default function LinkedIn() {
 
+  const ViewBoxesWithColorAndText = () => {
     return (
-      <View style={styles.container}>
-        <StatusBar style="auto" />
-        <Text>      </Text>
-        <Button title='SORT' ></Button>
+      <View
+        style= {styles.container}
+      >
+        <View style = {styles.space}></View>
+        <View style = {styles.list}>
+        <View style = {styles.item}></View>
+        {/* <Text style = {styles.textStyle}>hello</Text> */}
+        </View>
+
       </View>
     );
+      }
   
-  }
-  
+ export default ViewBoxesWithColorAndText;
   const styles = StyleSheet.create({
+
+    space: {
+      height: 100
+
+    },
+
     container: {
       flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-      color: 'black'
+
+      backgroundColor: 'black',
+
     },
   
     textStyle:{
       fontSize: 24,
-      color: "#f00",
+      color: "white",
       marginBottom: 20,
       alignContent: "center",
       justifyContent: 'center'
     },
   
-    background:{
+    list:{
       
-      fontSize: 24,
-      marginBottom: 20,
-      margin: 20,
+      //fontSize: 24,
+      //marginBottom: 20,
+      //margin: 20,
       alignContent: "center",
-      justifyContent: 'center'
+      justifyContent: 'center',
+      color: 'black'
     
     },
   
     item: {
-      borderColor: 'grey',
+      borderColor: '#37383a',
       borderWidth: 0.5,
-      backgroundColor: '#fff',
-      padding: 8,
+      backgroundColor: '#37383a',
+      padding: 20,
       margin: 6,
-      width: 300,
+      width: 200,
+      height: 120,
       alignContent: "center",
       justifyContent: 'center',
       borderRadius: 10,
@@ -54,6 +68,7 @@ export default function LinkedIn() {
       shadowOffset: {width: -2, height: 4},
       shadowOpacity: 0.2,
       shadowRadius: 3,
+
     },
   
     title: {

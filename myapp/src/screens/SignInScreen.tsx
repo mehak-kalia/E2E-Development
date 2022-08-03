@@ -28,7 +28,7 @@ export default function SignInScreen({navigation}:any) {
 
   return (
     <View style={styles.container}>
-    <Image source = {require('assets/ghex-icon.png')} height = {10} width = {20}></Image>
+    <Image source = {require('./assets/ghex-icon.png')} height = {10} width = {20}></Image>
       <TextInput style = {styles.input} placeholder ='Email Id'></TextInput>
       <TextInput style = {styles.input} placeholder = 'Password' secureTextEntry></TextInput>
       <Button title='Sign In' onPress={signIn}/>
