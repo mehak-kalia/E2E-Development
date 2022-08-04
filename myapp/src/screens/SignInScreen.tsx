@@ -3,6 +3,9 @@ import { StyleSheet, Text, View, Dimensions, Button, Touchable, TouchableOpacity
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { TextInput } from 'react-native-gesture-handler';
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { color } from 'react-native-reanimated';
+//import {  } from "../../assets/app.png";
 
 // Install: 
 // npm install @react-navigation/native
@@ -12,7 +15,26 @@ import { TextInput } from 'react-native-gesture-handler';
 export default function SignInScreen({navigation}:any) {
 
   function signIn(){
-    console.log("Sign In.....");
+    console.log("Email: "+email+"Password: "+password);
+    
+    
+    const auth = getAuth();
+   signInWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+    console.log("User Logged In.."+user.uid);
+    
+    // ...
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    console.log("Error Occurred..."+errorCode+" "+errorMessage);
+    
+  });
+
+  
     
   }
 
@@ -28,7 +50,8 @@ export default function SignInScreen({navigation}:any) {
 
   return (
     <View style={styles.container}>
-    <Image source = {require('./assets/ghex-icon.png')} height = {10} width = {20}></Image>
+    <Image source = {require("../../assets/train.png")} style = {styles.img}></Image>
+    <Text style = {styles.title}>Phatak Status</Text>
       <TextInput style = {styles.input} placeholder ='Email Id'></TextInput>
       <TextInput style = {styles.input} placeholder = 'Password' secureTextEntry></TextInput>
       <Button title='Sign In' onPress={signIn}/>
@@ -75,6 +98,20 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
-  }
+  },
+   img: {
+    height: 150,
+    width: 150,
+    padding: 6,
+    margin: 6
+   },
+
+   title: {
+    //fontFamily: 'serif',
+    fontSize: 24,
+    //fontWeight: 'bold',
+    color: '#2E5984'
+   }
+
 });
 

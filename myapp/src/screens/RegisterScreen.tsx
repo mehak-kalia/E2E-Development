@@ -1,10 +1,37 @@
 import React, { useState } from 'react';
-import { Button, StyleSheet, TextInput, View, Text, TouchableOpacity } from'react-native';
+import { Button, StyleSheet, TextInput, View, Text, TouchableOpacity , Image} from'react-native';
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, getFirestore, setDoc } from "firebase/firestore";
+
 
 export default function RegisterScreen({navigation}: any) {
 
   function register(){
     console.log("Register.....");
+    console.log("name: "+name+"email: "+email+"password: "+password);
+
+    const auth = getAuth();
+    const db = getFirestore();
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        // ...
+
+        const docToInsert = {
+          name: name,
+          email: email,
+          password: password
+        }
+
+        setDoc(doc(db, "users", user.uid), docToInsert);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ..
+      });
+    
   }
 
   function navigateToLoginScreen(){
@@ -18,13 +45,13 @@ export default function RegisterScreen({navigation}: any) {
   return (
       <View style={styles.container}>
 
-        {/* <Image/> */}
-        <Text>PhatakStatus</Text>
+        <Image source = {require("../../assets/train.png")} style = {styles.img}></Image>
+        <Text style = {styles.title}>PhatakStatus</Text>
 
         <TextInput style={styles.input}
             placeholder='Full Name'
-            value={email}
-            onChangeText={setEmail}
+            value={name}
+            onChangeText={setName}
         />
 
         <TextInput style={styles.input}
@@ -76,6 +103,19 @@ const styles = StyleSheet.create({
         fontSize: 16,
         margin: 12,
         color: 'blue'
-    }
+    },
+    img: {
+      height: 150,
+      width: 150,
+      padding: 6,
+      margin: 6
+     },
+
+     title: {
+      //fontFamily: 'serif',
+      fontSize: 24,
+      //fontWeight: 'bold',
+      color: '#2E5984'
+     }
 
   });
