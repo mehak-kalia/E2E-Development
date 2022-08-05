@@ -41,7 +41,7 @@ export default function SignInScreen({navigation}:any) {
 
   function navigateToRegisterScreen(){
     console.log("Navigating...");
-    
+    navigation.navigate("RegisterScreen")    
   }
 
   const [email, setEmail] = useState('')
@@ -50,15 +50,21 @@ export default function SignInScreen({navigation}:any) {
 
   return (
     <View style={styles.container}>
-    <Image source = {require("../../assets/train.png")} style = {styles.img}></Image>
-    <Text style = {styles.title}>Phatak Status</Text>
+    <Image source = {require("../../assets/Phatak.png")} style = {styles.img}></Image>
+    <Text style = {styles.title}>PhatakStatus</Text>
       <TextInput style = {styles.input} placeholder ='Email Id'></TextInput>
       <TextInput style = {styles.input} placeholder = 'Password' secureTextEntry></TextInput>
-      <Button title='Sign In' onPress={signIn}/>
+      {/* <Button title='Sign In' onPress={signIn}/> */}
+      <TouchableOpacity  onPress = {signIn}>
+      <View style = {styles.button}>
+      <Text style = {{}}>Sign In</Text>
+      </View>
+
+      </TouchableOpacity>
       <Text>   </Text>
 
       <TouchableOpacity  onPress = {navigateToRegisterScreen}>
-      <Text style = {styles.text}>New User? Register Here!</Text>
+      <Text >New User? Register Here!</Text>
 
       </TouchableOpacity>
 
@@ -111,6 +117,16 @@ const styles = StyleSheet.create({
     fontSize: 24,
     //fontWeight: 'bold',
     color: '#2E5984'
+   },
+   button: {
+    height: 35,
+    width: 70,
+    backgroundColor: '#F3CC09',
+    justifyContent: 'center',
+    alignContent: 'center',
+    margin: 5,
+    textAlign: 'center',
+    borderRadius: 5
    }
 
 });

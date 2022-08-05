@@ -45,7 +45,7 @@ export default function RegisterScreen({navigation}: any) {
   return (
       <View style={styles.container}>
 
-        <Image source = {require("../../assets/train.png")} style = {styles.img}></Image>
+        <Image source = {require("../../assets/Phatak.png")} style = {styles.img}></Image>
         <Text style = {styles.title}>PhatakStatus</Text>
 
         <TextInput style={styles.input}
@@ -65,16 +65,22 @@ export default function RegisterScreen({navigation}: any) {
             onChangeText={setPassword}
             secureTextEntry
         />
-        <Button
+        {/* <Button
             title='Register' onPress={register}
         />
-        
-        <TouchableOpacity
-            onPress={navigateToLoginScreen}>
-            <Text style={styles.text}>Existing User? Login Here</Text>
-        </TouchableOpacity>
+         */}
+        <TouchableOpacity  onPress = {register}>
+      <View style = {styles.button}>
+      <Text style = {{}}>Register</Text>
+      </View>
 
-        
+      </TouchableOpacity>
+      <Text>   </Text>
+
+      <TouchableOpacity  onPress = {navigateToLoginScreen}>
+      <Text >Existing User? Login Here</Text>
+
+      </TouchableOpacity>       
 
       </View>
     );
@@ -116,6 +122,17 @@ const styles = StyleSheet.create({
       fontSize: 24,
       //fontWeight: 'bold',
       color: '#2E5984'
+     },
+     button: {
+      height: 35,
+      width: 70,
+      backgroundColor: '#F3CC09',
+      justifyContent: 'center',
+      alignContent: 'center',
+      margin: 5,
+      textAlign: 'center',
+      borderRadius: 5
      }
+  
 
   });
