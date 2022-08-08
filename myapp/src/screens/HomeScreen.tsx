@@ -3,15 +3,16 @@ import { Button, StyleSheet, TextInput, View, Text, TouchableOpacity , Image, Al
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, getFirestore, setDoc } from "firebase/firestore";
 
-export default function SplashScreen({navigation}:any) {
+export default function HomeScreen({navigation}:any) {
   
   
     return (
 
         <View style = {styles.container}>
-
-        <Image source = {require("../../assets/Phatak.png")} style = {styles.img}></Image>
-        <Text style = {styles.title}>PhatakStatus</Text>
+            <Text>
+                Home Screen
+            </Text>
+            
 
         </View>
 

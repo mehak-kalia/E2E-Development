@@ -57,7 +57,7 @@ export default function SignInScreen({navigation}:any) {
       {/* <Button title='Sign In' onPress={signIn}/> */}
       <TouchableOpacity  onPress = {signIn}>
       <View style = {styles.button}>
-      <Text style = {{}}>Sign In</Text>
+      <Text style = {{alignContent: 'center', justifyContent: 'center', textAlign: 'center'}}>Sign In</Text>
       </View>
 
       </TouchableOpacity>
@@ -126,7 +126,9 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     margin: 5,
     textAlign: 'center',
-    borderRadius: 5
+    borderRadius: 5,
+    alignSelf: 'center',
+    textAlignVertical: 100
    }
 
 });
