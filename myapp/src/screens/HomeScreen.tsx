@@ -1,23 +1,44 @@
-import React, { useState } from 'react';
-import { Button, StyleSheet, TextInput, View, Text, TouchableOpacity , Image, Alert} from'react-native';
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { doc, getFirestore, setDoc } from "firebase/firestore";
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, View, Text } from'react-native';
+import { Appbar } from 'react-native-paper';
+import { collection, getDocs, getFirestore } from 'firebase/firestore';
 
-export default function HomeScreen({navigation}:any) {
-  
-  
-    return (
 
-        <View style = {styles.container}>
-            <Text>
-                Home Screen
-            </Text>
-            
+export default function HomeScreen({navigation}: any) {
+  console.log("Home Screen...");
 
-        </View>
+  const getCrossings = async () => {
+    try{
+      console.log("Getting Crossings....");
+      const documents = [];
+      const db = getFirestore();
+      
+      const querySnapshot = await getDocs(collection(db, "crossings"));
+      querySnapshot.forEach((doc) => {
+        console.log(doc.id, " => ", doc.data());
+        const docData = doc.data();
+        documents.push(docData);
+      });
 
-    );
+    }catch(error){
+      console.log("Something Went Wrong..");
+    }
   }
+
+  useEffect(
+    ()=>{
+      getCrossings();
+    },[]);
+
+  console.log("Getting Crossings....");
+  return (
+
+      <View style={styles.container}>
+        <Text>Welcome to Home</Text>
+      </View>
+    );
+}
+
 
 
 

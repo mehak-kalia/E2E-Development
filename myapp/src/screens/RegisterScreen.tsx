@@ -8,30 +8,30 @@ export default function RegisterScreen({navigation}: any) {
 
   function register(){
     console.log("Register.....");
-    console.log("name: "+name+"email: "+email+"password: "+password);
-
+    console.log("Name: "+name+" Email: "+email+" Password: "+password);
+    
     const auth = getAuth();
     const db = getFirestore();
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in 
-        const user = userCredential.user;
-        // ...
-
-        const docToInsert = {
-          name: name,
-          email: email,
-          password: password
-        }
-
-        setDoc(doc(db, "users", user.uid), docToInsert);
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // ..
-      });
     
+    createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      console.log("User Registered....");
+
+      const docToInsert = {
+        name: name,
+        email: email,
+        password: password
+      }
+
+      setDoc(doc(db, "users", user.uid), docToInsert);
+      navigation.navigate("HomeScreen");
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log("Error Occurred...."+errorCode+" "+errorMessage);
+    });
   }
 
   function navigateToLoginScreen(){

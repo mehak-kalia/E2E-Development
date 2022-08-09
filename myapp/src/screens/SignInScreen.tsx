@@ -15,28 +15,23 @@ import { color } from 'react-native-reanimated';
 export default function SignInScreen({navigation}:any) {
 
   function signIn(){
-    console.log("Email: "+email+"Password: "+password);
-    
+
+    console.log( "Email: "+email+" Password: "+password);
     
     const auth = getAuth();
-   signInWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
-    // Signed in 
-    const user = userCredential.user;
-    console.log("User Logged In.."+user.uid);
-    
-    // ...
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    console.log("Error Occurred..."+errorCode+" "+errorMessage);
-    
-  });
-
-  
-    
+    signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      console.log("User Logged In...."+user.uid);
+      navigation.navigate("HomeScreen");
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log("Error Occurred...."+errorCode+" "+errorMessage);
+    });
   }
+
 
 
   function navigateToRegisterScreen(){
@@ -52,8 +47,17 @@ export default function SignInScreen({navigation}:any) {
     <View style={styles.container}>
     <Image source = {require("../../assets/Phatak.png")} style = {styles.img}></Image>
     <Text style = {styles.title}>PhatakStatus</Text>
-      <TextInput style = {styles.input} placeholder ='Email Id'></TextInput>
-      <TextInput style = {styles.input} placeholder = 'Password' secureTextEntry></TextInput>
+      <TextInput 
+      style = {styles.input} 
+      placeholder ='Email Id'
+      value={email}
+      onChangeText={setEmail}></TextInput>
+      <TextInput 
+      style = {styles.input} 
+      placeholder = 'Password' 
+      secureTextEntry
+      value={password}
+      onChangeText={setPassword}></TextInput>
       {/* <Button title='Sign In' onPress={signIn}/> */}
       <TouchableOpacity  onPress = {signIn}>
       <View style = {styles.button}>

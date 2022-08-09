@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Dimensions, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import HomeScreen from './src/functional-comps/home'
+//import HomeScreen from './src/functional-comps/home'
 import ProfileScreen from './src/functional-comps/profile'
 import OrdersScreen from './src/functional-comps/orders'
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -16,8 +16,10 @@ import { initializeApp } from "firebase/app";
 import { firebaseConfig } from './src/helper/Constants';
 import RegisterScreen from './src/screens/RegisterScreen';
 import ViewBoxesWithColorAndText from './src/tutorials/UIPractice';
-import { getAuth } from 'firebase/auth';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import SplashScreen from './src/screens/SplashScreen';
+import { Appbar } from 'react-native-paper';
+import HomeScreen from './src/functional-comps/home';
 
 // Install: 
 // npm install @react-navigation/native
@@ -109,20 +111,47 @@ export default function App() {
   
     useEffect(
       ()=>{
-  
         async function showSplashScreen() {
-          // Reference to Authentication Module
-          const auth = getAuth();
-          if(auth.currentUser != null){
-            console.log("User is already Registered or Logged In: "+auth.currentUser.uid);
-            setLoggedIn(true);
+        const auth = getAuth();
+        
+        onAuthStateChanged(auth, (user) =>{
+          if(user != null){
+
+            setTimeout(()=>{
+              console.log("User is already Registered or Logged In: "+user.uid);
+              setLoggedIn(true);
+              setShowSplash(false);
+              //setLoggedIn(true);
+              console.log("1:"+loggedIn);
+
+              
+            }, 3000)
+            console.log("2:"+loggedIn);
+            
           }else{
-            console.log("User is not Registered or Logged In");
+            setTimeout(()=>{
+              console.log("User not Registered or Logged In");
+              setShowSplash(false);
+            }, 3000)
           }
-          await new Promise(resolve => setTimeout(resolve, 3000));
-          console.log("Wait for 3 seconds over...");
-          setShowSplash(false);
-        }
+  
+          
+        });
+      }
+  
+        // async function showSplashScreen() {
+        //   // Reference to Authentication Module
+        //   const auth = getAuth();
+        //   if(auth.currentUser != null){
+        //     console.log("User is already Registered or Logged In: "+auth.currentUser.uid);
+        //     setLoggedIn(true);
+        //   }else{
+        //     console.log("User is not Registered or Logged In");
+        //   }
+        //   await new Promise(resolve => setTimeout(resolve, 3000));
+        //   console.log("Wait for 3 seconds over...");
+        //   setShowSplash(false);
+        // }
   
         try{
           showSplashScreen();
@@ -153,7 +182,21 @@ export default function App() {
             <Stack.Navigator initialRouteName='HomeScreen'>
               <Stack.Screen name='SignInScreen' component={SignInScreen}/>
               <Stack.Screen name='RegisterScreen' component={RegisterScreen}/>
-              <Stack.Screen name='HomeScreen' component={HomeScreen}/>
+              <Stack.Screen name='HomeScreen' component={HomeScreen} options={{
+              title: "PhatakApp",
+              headerRight: ()=>(
+                <Appbar.Action
+                // https://materialdesignicons.com/ (for icon names)
+                icon="logout"
+                onPress = {()=> {
+                  const auth = getAuth();
+                  auth.signOut();
+                  setLoggedIn(false)
+                  setShowSplash(true);
+                }}
+                />
+              )
+            }}/>
             </Stack.Navigator>
           </NavigationContainer>
         );
