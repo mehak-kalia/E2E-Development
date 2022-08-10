@@ -8,7 +8,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // npm install @react-navigation/native-stack
 // npm install react-native-screens react-native-safe-area-context
 
-function HomeScreen({navigation}:any) {
+function MainScreen({navigation}:any) {
 
   return (
     <View style={styles.container}>
@@ -46,7 +46,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName='Home'>
-        <Stack.Screen name='Home' component={HomeScreen}/>
+        <Stack.Screen name='Home' component={MainScreen}/>
         <Stack.Screen name='Profile' component={ProfileScreen}/>
         <Stack.Screen name='Orders' component={OrdersScreen}/>
       </Stack.Navigator>

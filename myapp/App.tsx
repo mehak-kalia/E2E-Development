@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Dimensions, Button } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, Button , Image} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 //import HomeScreen from './src/functional-comps/home'
@@ -19,7 +19,9 @@ import ViewBoxesWithColorAndText from './src/tutorials/UIPractice';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import SplashScreen from './src/screens/SplashScreen';
 import { Appbar } from 'react-native-paper';
-import HomeScreen from './src/functional-comps/home';
+import HomeScreen from './src/screens/HomeScreen';
+import MapViewScreen from './src/screens/MapViewScreen';
+//import HomeScreen from './src/functional-comps/home';
 
 // Install: 
 // npm install @react-navigation/native
@@ -101,43 +103,27 @@ const Tab = createMaterialTopTabNavigator();
 // }
 
 
-export default function App() {
+export default function App({navigation}:any) {
 
 
     const [showSplash, setShowSplash] = useState(true);
     const [loggedIn, setLoggedIn] = useState(false);
+    // const navigation = useNavigation();
   
     initializeApp(firebaseConfig);
   
     useEffect(
       ()=>{
-        async function showSplashScreen() {
         const auth = getAuth();
         
         onAuthStateChanged(auth, (user) =>{
           if(user != null){
-
-            setTimeout(()=>{
-              console.log("User is already Registered or Logged In: "+user.uid);
-              setLoggedIn(true);
-              setShowSplash(false);
-              //setLoggedIn(true);
-              console.log("1:"+loggedIn);
-
-              
-            }, 3000)
-            console.log("2:"+loggedIn);
-            
-          }else{
-            setTimeout(()=>{
-              console.log("User not Registered or Logged In");
-              setShowSplash(false);
-            }, 3000)
+            console.log("User is already Registered or Logged In: "+user.uid);
+            setLoggedIn(true);
           }
-  
-          
+
+          setTimeout(()=>{setShowSplash(false);}, 3000)
         });
-      }
   
         // async function showSplashScreen() {
         //   // Reference to Authentication Module
@@ -153,53 +139,76 @@ export default function App() {
         //   setShowSplash(false);
         // }
   
-        try{
-          showSplashScreen();
-        }catch(error){
-          console.log("Something Went Wrong: "+error);
-        }finally{
-          console.log("Finally Executed..");
-        }
-  
       },
         
       []);
+
+      function navigateToMapViewScreen(){
+        console.log("Navigating...");
+        navigation.navigate("MapViewScreen")    
+      }
+
+      
+    
   
       if(showSplash){
-        return(<NavigationContainer>
-        <Stack.Navigator initialRouteName='SplashScreen'>
-          <Stack.Screen name='SignInScreen' component={SignInScreen}/>
-          <Stack.Screen name='RegisterScreen' component={RegisterScreen}/>
-          <Stack.Screen name='HomeScreen' component={HomeScreen}/>
-          <Stack.Screen name='SplashScreen' component={SplashScreen} options={{header: () => null}}/>
-        </Stack.Navigator>
-      </NavigationContainer>)
+      //   return(
+      //   <NavigationContainer>
+      //   <Stack.Navigator initialRouteName='SplashScreen'>
+      //     <Stack.Screen name='SignInScreen' component={SignInScreen}/>
+      //     <Stack.Screen name='RegisterScreen' component={RegisterScreen}/>
+      //     <Stack.Screen name='HomeScreen' component={HomeScreen}/>
+      //     <Stack.Screen name='SplashScreen' component={SplashScreen} options={{header: () => null}}/>
+      //   </Stack.Navigator>
+      // </NavigationContainer>)
+      return (
+
+        <View style = {styles.container}>
+
+        <Image source = {require("../myapp/assets/Phatak.png")} style = {styles.img}></Image>
+        <Text style = {styles.title}>PhatakStatus</Text>
+
+        </View>
+
+    );
       }
   
       if(loggedIn){
         return (
           <NavigationContainer>
-            <Stack.Navigator initialRouteName='HomeScreen'>
+            <Stack.Navigator initialRouteName='MapViewScreen'>
               <Stack.Screen name='SignInScreen' component={SignInScreen}/>
+              <Stack.Screen name='MapViewScreen' component={MapViewScreen}/>
               <Stack.Screen name='RegisterScreen' component={RegisterScreen}/>
               <Stack.Screen name='HomeScreen' component={HomeScreen} options={{
               title: "PhatakApp",
               headerRight: ()=>(
-                <Appbar.Action
-                // https://materialdesignicons.com/ (for icon names)
-                icon="logout"
-                onPress = {()=> {
-                  const auth = getAuth();
-                  auth.signOut();
-                  setLoggedIn(false)
-                  setShowSplash(true);
-                }}
-                />
+                <Appbar style = {{backgroundColor: "white", shadowColor: "white", shadowOpacity: 0}}>
+                     <Appbar.Action
+                      // https://materialdesignicons.com/ (for icon names)
+                      icon="logout"
+                      onPress = {()=> {
+                        const auth = getAuth();
+                        auth.signOut();
+                        setLoggedIn(false)
+                        setShowSplash(true);
+                      }}
+                      />
+                      <Appbar.Action
+                      // https://materialdesignicons.com/ (for icon names)
+                      icon="map" 
+                      onPress = {()=> {
+                        navigateToMapViewScreen();
+                       
+                      }}
+                      />
+                </Appbar>
+
               )
             }}/>
-            </Stack.Navigator>
-          </NavigationContainer>
-        );
+          </Stack.Navigator>
+        </NavigationContainer>
+      );
       }else{
         return (
           <NavigationContainer>
@@ -236,5 +245,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  
+     img: {
+      height: 150,
+      width: 150,
+      padding: 6,
+      margin: 6
+     },
+  
+     title: {
+      //fontFamily: 'serif',
+      fontSize: 24,
+      //fontWeight: 'bold',
+      color: '#2E5984'
+     },
 });
 

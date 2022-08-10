@@ -1,23 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Text } from'react-native';
+import { Button, FlatList, StyleSheet, Text, View, Image } from 'react-native';
 import { Appbar } from 'react-native-paper';
-import { collection, getDocs, getFirestore } from 'firebase/firestore';
+import { collection, doc, DocumentData, getDocs, getFirestore, QueryDocumentSnapshot } from 'firebase/firestore';
+import { StatusBar } from 'expo-status-bar';
 
 
 export default function HomeScreen({navigation}: any) {
   console.log("Home Screen...");
 
+  const [documents1, setDocuments] = useState([])
+
   const getCrossings = async () => {
     try{
       console.log("Getting Crossings....");
-      const documents = [];
-      const db = getFirestore();
+      const documents: any = [];
+     const db = getFirestore();
       
       const querySnapshot = await getDocs(collection(db, "crossings"));
       querySnapshot.forEach((doc) => {
         console.log(doc.id, " => ", doc.data());
         const docData = doc.data();
         documents.push(docData);
+
+        setDocuments(documents)
       });
 
     }catch(error){
@@ -28,18 +33,109 @@ export default function HomeScreen({navigation}: any) {
   useEffect(
     ()=>{
       getCrossings();
-    },[]);
+      
+      
+    },documents1);
 
   console.log("Getting Crossings....");
+  console.log(documents1);
+
+  // List Item Layout
+const Item = (itemData:any) => (
+  <View style={styles.item}>
+    
+    
+         {/* <img   style={{
+            height: 50,
+            width: 120,
+            
+          }}
+          src= {itemData.logo}></img> */}
+          <Image source={{uri: itemData.imageURL}} style={styles.img}/>
+
+
+     <Text style={styles.title} >{itemData.name}</Text>
+     {/* if ({itemData.status == 1}) {
+      <Text style={styles.title} >Status: Open</Text>
+     }else if ({itemData.status == 2}) {
+      <Text style={styles.title} >Status: Closed</Text>
+      
+     }else if ({itemData.status == 3}) {
+      <Text style={styles.title} >Status: Is Opening</Text>
+      
+     }else{
+      <Text style={styles.title} >Status: Is Closing</Text>
+     } */}
+
+     {
+      itemData.status == 1 ?
+      <Text style={styles.subTitle} >Status: Open</Text>:
+      itemData.status == 2 ?
+      <Text style={styles.subTitle} >Status: Closed</Text>:
+      itemData.status == 3 ?
+      <Text style={styles.subTitle} >Status: Is Opening</Text>:
+      itemData.status == 4 ?
+      <Text style={styles.subTitle} >Status: Is Closing</Text>:
+      <View></View>
+     }
+     {/* <Text style={styles.subTitle} >Status: {itemData.status}</Text> */}
+     
+     <Text style={styles.subTitle} >Latitude: {itemData.location["latitude"]}</Text>
+     <Text style = {styles.subTitle}>Longitude: {itemData.location["longitude"]}</Text>
+     <Text style = {styles.subTitle}>{itemData.timings[0]["train"]}</Text>
+    
+     {/* <Text style={styles.title} >{itemData.timings}</Text> */}
+
+
+  </View>
+);
+
+// Specified to execute renderItem function and create Item Views
+const renderItem = ({item}:any) => Item(item);
+  
+
+
+// Functional Component
+
+
   return (
 
-      <View style={styles.container}>
-        <Text>Welcome to Home</Text>
-      </View>
-    );
+
+    <View style={styles.container}>
+    <StatusBar style="auto" />
+    <FlatList data={documents1} renderItem={renderItem}/>
+  </View>
+
+  );
+
 }
 
 
+// const [locations, setLocations] = useState([])
+
+
+// useEffect(() => {
+//   const loadData = async () => {
+//       const querySnapshot = await getDocs(collection(db, "crossings"));
+//       setLocations(     querySnapshot.forEach((doc) => {
+//                console.log(doc.id, " => ", doc.data());
+//       const docData = doc.data();)
+//   };
+
+//   loadData()
+// }, [setLocations]);
+
+
+// return (
+//       <FlatList data={locations}
+          // renderItem={({ item }) => (
+          //     <View></View>
+          // )}
+//       />
+// )
+
+
+//   }
 
 
 const styles = StyleSheet.create({
@@ -72,16 +168,18 @@ const styles = StyleSheet.create({
     },
      img: {
       height: 150,
-      width: 150,
+      width: "95%",
       padding: 6,
-      margin: 6
+      margin: 6,
+      borderRadius: 7
      },
   
      title: {
       //fontFamily: 'serif',
-      fontSize: 24,
-      //fontWeight: 'bold',
-      color: '#2E5984'
+      fontSize: 20,
+
+      fontWeight: 'bold',
+      // color: '#2E5984'
      },
      button: {
       height: 35,
@@ -92,7 +190,57 @@ const styles = StyleSheet.create({
       margin: 5,
       textAlign: 'center',
       borderRadius: 5
-     }
+     },
+
+
+    textStyle:{
+      fontSize: 24,
+      color: "#f00",
+      marginBottom: 20,
+      alignContent: "center",
+      justifyContent: 'center'
+    },
+  
+    background:{
+      
+      fontSize: 24,
+      marginBottom: 20,
+      margin: 20,
+      alignContent: "center",
+      justifyContent: 'center'
+    
+    },
+  
+    item: {
+      borderColor: 'grey',
+      borderWidth: 0.5,
+      backgroundColor: '#fff',
+      padding: 8,
+      margin: 6,
+      width: 300,
+      alignContent: "center",
+      justifyContent: 'center',
+      borderRadius: 10,
+      shadowColor: '#171717',
+      shadowOffset: {width: -2, height: 4},
+      shadowOpacity: 0.2,
+      shadowRadius: 3,
+    },
+  
+
+    subTitle: {
+      fontSize: 12,
+      color: 'grey',
+      alignContent: "center",
+      justifyContent: 'center'
+    },
+  
+    small : {
+      fontSize: 10,
+      color: 'grey',
+      alignContent: "center",
+      justifyContent: 'center'
+    }
   
   });
   
