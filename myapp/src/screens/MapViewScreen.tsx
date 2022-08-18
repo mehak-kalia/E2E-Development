@@ -37,9 +37,9 @@ export default function MapViewScreen() {
 
     },documents1);
 
-    const list = documents1.map((element, index)=>{
+    // const list = documents1.map((element, index)=>{
         
-    })
+    // })
 
   console.log("Getting Crossings....");
   console.log(documents1);
@@ -60,7 +60,7 @@ export default function MapViewScreen() {
      
       <Marker coordinate={{latitude: documents1[0]["location"]["latitude"], longitude: documents1[0]["location"]["latitude"]}
      }
-     title = {list}
+    //  title = {}
      pinColor='pink'
      description='Software Company'>
       
